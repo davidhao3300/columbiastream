@@ -1,0 +1,170 @@
+/* Move down content because we have a fixed navbar that is 50px tall */
+body {
+  padding-top: 93px;
+  padding-bottom: 20px;
+}
+.containerFull {
+  padding-right: 0px;
+  padding-left: 0px;
+  margin-right: auto;
+  margin-left: auto;
+  padding-top: 20px;
+  padding-bottom: 50px;
+}
+
+/* BOOTSTRAP OVERRIDES
+-------------------------------------------------- */
+.container h1{
+  font-family: 'Open Sans', sans-serif;
+  font-weight:700;
+	color: #ffffff;
+	text-align: center;
+}
+
+.container h2{
+  font-family: 'Open Sans', sans-serif;
+  font-weight:500;
+	color: #FFFFFF;
+  padding-bottom: 40px;
+	text-align: center;
+}
+
+.container h3{
+  font-family: 'Open Sans', sans-serif;
+  font-weight:500;
+  color: #FFFFFF;
+}
+
+.container h4{
+  font-family: 'Open Sans', sans-serif;
+  font-weight:200;
+  color: #FFFFFF;
+}
+
+.table > thead > tr > td.name,
+.table > tbody > tr > td.name,
+.table > tfoot > tr > td.name,
+.table > thead > tr > th.name,
+.table > tbody > tr > th.name,
+.table > tfoot > tr > th.name,
+.table > thead > tr.name > td,
+.table > tbody > tr.name > td,
+.table > tfoot > tr.name > td,
+.table > thead > tr.name > th,
+.table > tbody > tr.name > th,
+.table > tfoot > tr.name > th {
+  background-color: black;
+  border-color: black;
+  color: white;
+}
+
+h3 {
+	margin-top:10px;
+}
+
+/* CUSTOMIZE THE CAROUSEL
+-------------------------------------------------- */
+
+/* Carousel base class */
+.carousel {
+  margin-top: 0px;
+  margin-bottom: 0px;
+  background-size:100% 100%;
+  height: 620px;
+  color:#fff;
+	text-align: center;
+	color:white;
+	vertical-align:middle;
+	background: #c1272d; /* Old browsers */
+	background: -moz-linear-gradient(top,  #c1272d 0%, #A31D28 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#c1272d), color-stop(100%,#A31D28)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top,  #c1272d 0%,#A31D28 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top,  #c1272d 0%,#A31D28 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top,  #c1272d 0%,#A31D28 100%); /* IE10+ */
+	background: linear-gradient(to bottom,  #c1272d 0%,#A31D28 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#c1272d', endColorstr='#A31D28',GradientType=0 ); /* IE6-9 */
+}
+
+.carousel h1{
+  font-family: 'Open Sans', sans-serif;
+  color: #c2272d;
+  padding-bottom: 40px;
+}
+
+/* Since positioning the image, we need to help out the caption */
+.carousel-caption {
+  z-index: 10;
+}
+
+.carousel h1{
+  color: white;
+  padding-bottom: 20px;
+}
+/* Declare heights because of positioning of img element */
+.carousel img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  min-width: 100%;
+  height: 500px;
+}
+
+.red {
+	background:#c2272d;
+	color:#fff;
+}
+
+/* SIGNUP Form
+-------------------------------------------------- */
+.form-signin {
+  max-width: 330px;
+  padding: 15px;
+  margin: 0 auto;
+}
+.form-signin .form-signin-heading,
+.form-signin .checkbox {
+  margin-bottom: 10px;
+}
+.form-signin .checkbox {
+  font-weight: normal;
+}
+.form-signin .form-control {
+  position: relative;
+  font-size: 16px;
+  height: auto;
+  padding: 10px;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+}
+.form-signin .form-control:focus {
+  z-index: 2;
+}
+.form-signin input[type="text"] {
+  margin-bottom: -1px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.form-signin input[type="password"] {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+	 
+#dist-circle {
+	float:left;
+	height: 30px;
+	width: 30px;
+	padding-top: 3px;
+	margin-right: 10px;
+	-moz-border-radius: 15px;
+	border-radius: 15px;
+	background-color:#64A8D1;
+	color:white;
+	text-align:center;
+	vertical-align:middle;
+	font-size:0.9em;
+	font-family: 'Open Sans', sans-serif;
+	line-height:22px;
+}
+	 
