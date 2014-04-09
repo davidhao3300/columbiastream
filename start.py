@@ -158,7 +158,7 @@ def not_found(start_response):
     return ['<h1>Not Found</h1>']
 
 print __name__
-if __name__ == '__main__':
+if __name__ == 'start' or __name == '__main__':
 	Thread(target = listener).start()
 	server = SocketIOServer(('0.0.0.0', 8080), Application(), resource="socket.io", policy_server=True, policy_listener=('0.0.0.0', 10843))
 	print "Done"
