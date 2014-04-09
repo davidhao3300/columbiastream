@@ -161,6 +161,5 @@ print __name__
 if __name__ == 'start' or __name == '__main__':
 	Thread(target = listener).start()
 	server = SocketIOServer(('0.0.0.0', 8080), Application(), resource="socket.io", policy_server=True, policy_listener=('0.0.0.0', 10843))
-	print "Done"
-	sys.stdout.flush()
 	server.serve_forever()
+	print "Done"
