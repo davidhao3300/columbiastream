@@ -2,7 +2,6 @@
 # -*- coding: latin-1 -*-
 
 from flask import Flask, redirect, session, url_for, request, g, render_template, request
-from flask.ext.sqlalchemy import get_debug_queries
 from flask.ext.tweepy import Tweepy
 from tweepy.streaming import StreamListener
 from flask.ext.socketio import SocketIO, emit
@@ -33,7 +32,9 @@ class StdOutListener(StreamListener):
 
 	"""
 	def on_data(self, data):
+		#print data
 		dic = json.loads(data)
+		#print dic
 		sent = calc_sentiment(dic['text'])
 		socketio.emit('tweet', {'text': dic['text'], 'id': dic['id_str'], 'sent':sent}, namespace='/test')
 		return True
