@@ -22,7 +22,6 @@ Tempita==0.5.2
 Twisted==12.2.0
 WTForms==1.0.5
 Werkzeug==0.9.4
-Whoosh==2.5.6
 altgraph==0.10.1
 bdist-mpkg==0.4.4
 blinker==1.3
