@@ -34,7 +34,7 @@ class StdOutListener(StreamListener):
 	def on_data(self, data):
 		#print data
 		dic = json.loads(data)
-		#print dic
+		print dic
 		sent = calc_sentiment(dic['text'])
 		socketio.emit('tweet', {'text': dic['text'], 'id': dic['id_str'], 'sent':sent}, namespace='/test')
 		return True
