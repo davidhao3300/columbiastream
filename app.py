@@ -16,7 +16,7 @@ import time
 from gevent import monkey; monkey.patch_all()
 import gevent
 import getpass
-
+import sys
 from socketio import socketio_manage
 from socketio.server import SocketIOServer
 from socketio.namespace import BaseNamespace
@@ -161,4 +161,5 @@ if __name__ == '__main__':
 	Thread(target = listener).start()
 	server = SocketIOServer(('0.0.0.0', 8080), Application(), resource="socket.io", policy_server=True, policy_listener=('0.0.0.0', 10843))
 	print "Done"
+	sys.stdout.flush()
 	server.serve_forever()
