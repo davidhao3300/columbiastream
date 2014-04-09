@@ -13,6 +13,13 @@ import tweepy
 from tweepy import OAuthHandler
 from tweepy import Stream
 import time
+from gevent import monkey; monkey.patch_all()
+import gevent
+import getpass
+
+from socketio import socketio_manage
+from socketio.server import SocketIOServer
+from socketio.namespace import BaseNamespace
 
 consumer_key="HJC58RkbqZeHo0Z6sesPrKWRc"
 consumer_secret="2pDKqITFdoqRZlVFJvQ1iDfE6kyMqlDxcDlOpC6NuV6nAn5Jl4"
@@ -22,55 +29,41 @@ access_token_secret="C7SYtnNCX5mAZLFvhP5QaYam5iTnvokOfKQ7LlDFEBEL4"
 app = Flask(__name__)
 app.debug = True
 app.config['SECRET_KEY'] = 'secret!'
-api = None
+server = None
 sent_dict = dict()
-socketio = SocketIO(app)
+
+def broadcast_msg(ns_name, event, *args):
+	global server
+	pkt = dict(type="event",
+			   name=event,
+			   args=args,
+			   endpoint=ns_name)
+
+	for sessid, socket in server.sockets.iteritems():
+		socket.send_packet(pkt)
 
 class StdOutListener(StreamListener):
 	""" A listener handles tweets are the received from the stream.
 	This is a basic listener that just prints received tweets to stdout.
 
 	"""
+	def __init__(self):
+		initialize()
 	def on_data(self, data):
 		#print data
 		dic = json.loads(data)
-		print dic
+		#print dic
 		sent = calc_sentiment(dic['text'])
-		socketio.emit('tweet', {'text': dic['text'], 'id': dic['id_str'], 'sent':sent}, namespace='/test')
+		print dic['text']
+		broadcast_msg('/tweets', 'tweet', {'text': dic['text'], 'id': dic['id_str'], 'sent':sent})
+		#socketio.emit('tweet', {'text': dic['text'], 'id': dic['id_str'], 'sent':sent}, namespace='/test')
 		return True
 
 	def on_error(self, status):
 		print status
 
-@socketio.on('connect', namespace='/test')
-def test_connect():
-	emit('my response', {'data': 'Connected', 'count': 0})
-
-
-@socketio.on('disconnect', namespace='/test')
-def test_disconnect():
-	print('Client disconnected')
-
-@app.before_request
-def before_request():
-	if api == None:
-		initialize()
-
-@app.route('/', methods = ['GET'])
-def index():
-	return render_template("index.html")
-
 def initialize():
-	global api, sent_dict
-	if api != None:
-		return "Already initialized"
-	app.config.setdefault('TWEEPY_CONSUMER_KEY', consumer_key)
-	app.config.setdefault('TWEEPY_CONSUMER_SECRET', consumer_secret)
-	app.config.setdefault('TWEEPY_ACCESS_TOKEN_KEY', access_token)
-	app.config.setdefault('TWEEPY_ACCESS_TOKEN_SECRET', access_token_secret)
-	test = Tweepy(app)
-	api = test.api
-	
+	global sent_dict
 	sent_filename = "output.txt"
 	sent_reader = open(sent_filename)
 	for inline in sent_reader:
@@ -85,7 +78,6 @@ def initialize():
 			value = float(row[1])
 			# Set the key-value pair in the dictionary.
 			sent_dict[word] = value
-	return "Success!"
 
 def listener():
 	l = StdOutListener()
@@ -125,6 +117,42 @@ def calc_sentiment(tweet):
 		return 0
 	return value
 
+class Application(object):
+	def __init__(self):
+		self.buffer = []
+
+	def __call__(self, environ, start_response):
+		path = environ['PATH_INFO'].strip('/') or 'index.html'
+
+		if path.startswith('static/') or path == 'index.html':
+			try:
+				data = open(path).read()
+			except Exception:
+				return not_found(start_response)
+
+			if path.endswith(".js"):
+				content_type = "text/javascript"
+			elif path.endswith(".css"):
+				content_type = "text/css"
+			elif path.endswith(".swf"):
+				content_type = "application/x-shockwave-flash"
+			else:
+				content_type = "text/html"
+
+			start_response('200 OK', [('Content-Type', content_type)])
+			return [data]
+
+		if path.startswith("socket.io"):
+			socketio_manage(environ, {'/tweet': BaseNamespace})
+		else:
+			return not_found(start_response)
+
+def not_found(start_response):
+    start_response('404 Not Found', [])
+    return ['<h1>Not Found</h1>']
+
 if __name__ == '__main__':
 	Thread(target = listener).start()
-	socketio.run(app)
+	server = SocketIOServer(('0.0.0.0', 8080), Application(), resource="socket.io", policy_server=True, policy_listener=('0.0.0.0', 10843))
+	
+	server.serve_forever()
