@@ -61,11 +61,11 @@ class StdOutListener(StreamListener):
 
 	def on_error(self, status):
 		print status
-
+"""
 @app.route('/')
 def index():
     return render_template('index.html')
-
+"""
 def initialize():
 	global sent_dict
 	sent_filename = "output.txt"
@@ -147,6 +147,7 @@ class Application(object):
 			return [data]
 
 		if path.startswith("socket.io"):
+			print "SOCKET"
 			socketio_manage(environ, {'/tweet': BaseNamespace})
 		else:
 			return not_found(start_response)
