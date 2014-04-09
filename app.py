@@ -62,6 +62,10 @@ class StdOutListener(StreamListener):
 	def on_error(self, status):
 		print status
 
+@app.route('/')
+def index():
+    return render_template('index.html')
+
 def initialize():
 	global sent_dict
 	sent_filename = "output.txt"
