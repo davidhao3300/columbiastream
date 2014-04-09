@@ -54,7 +54,7 @@ class StdOutListener(StreamListener):
 		dic = json.loads(data)
 		#print dic
 		sent = calc_sentiment(dic['text'])
-		print dic['text']
+		#print dic['text']
 		broadcast_msg('/tweets', 'tweet', {'text': dic['text'], 'id': dic['id_str'], 'sent':sent})
 		#socketio.emit('tweet', {'text': dic['text'], 'id': dic['id_str'], 'sent':sent}, namespace='/test')
 		return True
@@ -130,6 +130,7 @@ class Application(object):
 
 		if path.startswith('static/') or path == 'index.html':
 			try:
+				print path
 				data = open(path).read()
 			except Exception:
 				return not_found(start_response)
