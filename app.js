@@ -36,6 +36,7 @@ var watchSymbols = ['@Columbia', 'columbia university', '#ColumbiaUniversity', '
 var tweets = [];
 var sents = {};
 initialize();
+console.log(tweets);
 
 //Generic Express setup
 app.set('port', process.env.PORT || 3000);
@@ -88,8 +89,8 @@ t.stream('statuses/filter', { track: watchSymbols }, function(stream) {
 
   //We have a connection. Now watch the 'data' event for incomming tweets.
   stream.on('data', function(tweet) {
-      console.log(tweet.text);
-      tweets.push({"time" : Date.parse(tweet.created_at)/1000, "text" : tweet.text, "sent":calc_sentiment(tweet.text)});
+      console.log(strip(tweet.text));
+      tweets.push({time : Date.parse(tweet.created_at)/1000, text : tweet.text, sent:calc_sentiment(tweet.text)});
       fs.writeFileSync('./tweets.txt', JSON.stringify(tweets));
   });
 });
@@ -102,17 +103,9 @@ server.listen(app.get('port'), function(){
 
 function initialize()
 {
-    var lines = fs.readFileSync('./tweets.txt', 'utf8').split("\n");
+    var lines = fs.readFileSync('./tweets.txt', 'utf8');
     
-    for (var i = 0; i < lines.length-1; i++)
-    {
-      var data = lines[i].split("\t");
-      var time = parseInt(data[0]);
-      var sent = parseFloat(data[1]);
-      var text = data[2];
-      var dict = {"time": time, "text" : text, "sent" : sent};
-      tweets.push(dict);
-    }
+    tweets = JSON.parse(lines);
 
     lines = fs.readFileSync('./sent.txt', 'utf8');
     sents = JSON.parse(lines);
@@ -159,7 +152,6 @@ function removePunc(tweet)
     {
 
       var c = tweet.charAt(j);
-      //console.log(p+" "+c);
       if(p==c)
       {
         tweet_string += " ";
