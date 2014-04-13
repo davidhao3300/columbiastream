@@ -36,7 +36,6 @@ var watchSymbols = ['@Columbia', 'columbia university', '#ColumbiaUniversity', '
 var tweets = [];
 var sents = {};
 initialize();
-console.log(tweets);
 
 //Generic Express setup
 app.set('port', process.env.PORT || 3000);
@@ -59,7 +58,7 @@ if ('development' == app.get('env')) {
 
 //Our only route! Render it with the current watchList
 app.get('/', function(req, res) {
-	res.json({'data':tweets});
+	res.render("index", {});
 });
 
 //Start a Socket.IO listen
@@ -69,12 +68,16 @@ var sockets = io.listen(server);
 //THIS IS NECESSARY ONLY FOR HEROKU!
 sockets.configure(function() {
   sockets.set('transports', ['xhr-polling']);
-  sockets.set('polling duration', 10);
+  sockets.set('polling duration', 30);
 });
 
 //If the client just connected, give them fresh data!
 sockets.sockets.on('connection', function(socket) { 
-    //socket.emit('data', watchList);
+  console.log("Connected");
+  var dict = [{text:"apples", sent:124, time:214},{text:"applfjasnjks", sent:124124, time:211244}];
+  console.log(dict);
+  socket.emit('data', tweets);
+    //socket.emit('data', tweets);
 });
 
 // Instantiate the twitter connection
@@ -89,9 +92,10 @@ t.stream('statuses/filter', { track: watchSymbols }, function(stream) {
 
   //We have a connection. Now watch the 'data' event for incomming tweets.
   stream.on('data', function(tweet) {
-      console.log(strip(tweet.text));
-      tweets.push({time : Date.parse(tweet.created_at)/1000, text : tweet.text, sent:calc_sentiment(tweet.text)});
+      var dict = {time : Date.parse(tweet.created_at)/1000, text : tweet.text, sent:calc_sentiment(tweet.text)};
+      tweets.push(dict);
       fs.writeFileSync('./tweets.txt', JSON.stringify(tweets));
+      sockets.sockets.emit('new_tweet', dict);
   });
 });
 

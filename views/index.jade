@@ -9,15 +9,11 @@ html
     body
         .container
             .header
-                h1 Twitter Symbol Heatmap
+                h1 Columbia Stream
                 small 
-                    | This application uses Node.js to create a streaming connection between it and Twitter. 
-                    | Any mentions of the following symbols are received by the Node application and broadcasted
-                    | to any clients using Socket.io.
+                    | Tracks mentions of Columbia University on Twitter.
                 small
                     i
                         | Last updated:
                         span(id="last-update") Never
-            ul
-                each val, key in data.symbols
-                    li(data-symbol="#{key}")= key
+                span(id="test")

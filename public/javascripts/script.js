@@ -1,17 +1,20 @@
 $(function() {
     var socket = io.connect(window.location.hostname);
-    socket.on('data', function(data) {
-        var total = data.total;
-        for (var key in data.symbols) {
-            var val = data.symbols[key] / total;
-            if (isNaN(val)) {
-                val = 0;
-            }
-            
-            $('li[data-symbol="' + key + '"]').each(function() {
-                $(this).css('background-color', 'rgb(' + Math.round(val * 255) +',0,0)');
-            });
+    socket.on('data', function(data)
+    {
+        for (var i = 0; i < data.length; i++)
+        {
+            prepend(data[i]);
         }
+    });
+    socket.on('new_tweet', function(data) {
+        
         $('#last-update').text(new Date().toTimeString());
+        prepend(data);
     });
 })
+
+function prepend(tweet)
+{
+    $('#test').prepend("<span></span>").prepend("<p>Sentiment: "+tweet.sent+"</p>").prepend("<p>Time: "+tweet.time+"</p>").prepend("<p>Text: "+tweet['text']+"</p>");
+}
