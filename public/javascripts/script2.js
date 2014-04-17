@@ -11,9 +11,8 @@ $(document).ready(function() {
         var ROWS = 11;
         var MULT = 300;
         tweets = data;
-        var time = new Date(Date.now());
+        var time = new Date(tweets[tweets.length-1].time*1000);
         console.log(parseInt(time.getTime()/1000));
-        $("#current-time").text(time.toLocaleString());
 
         var num = tweets.length-1;
         console.log(tweets[num].time);
@@ -31,7 +30,8 @@ $(document).ready(function() {
         setInterval(function()
         {
             time.setTime(time.getTime()-1000*MULT/2);
-            $("#current-time").text(time.toLocaleString());
+            var actualtime = new Date(time.getTime()-4*60*60*1000);
+            $("#current-time").text(actualtime.toLocaleString());
             var curr = parseInt(time.getTime()/1000);
             console.log(curr+" "+parseInt(tweets[num].time));
             while(todelete.length > 0 && todelete[0][0] > curr)
