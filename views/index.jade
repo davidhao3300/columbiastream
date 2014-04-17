@@ -5,7 +5,7 @@ html
         link(rel='stylesheet', href='/stylesheets/style.css')
         script(src="http://code.jquery.com/jquery-1.9.1.min.js")
         script(src="components/socket.io-client/dist/socket.io.min.js")
-        script(src="/javascripts/script.js")
+        script(src="/javascripts/script2.js")
     body
         .container
             .header
@@ -16,4 +16,8 @@ html
                     i
                         | Last updated:
                         span(id="last-update") Never
+                small
+                    | Current time:
+                    span(id="current-time") Now
                 span(id="test")
+        .tweets
