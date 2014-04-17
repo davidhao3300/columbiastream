@@ -3,8 +3,11 @@ $(document).ready(function() {
     var socket = io.connect(window.location.hostname);
     var tweets;
     var index = 0;
+    var done = false;
     socket.on('data', function(data)
     {
+        if(done) return;
+        done = true;
         var ROWS = 11;
         var MULT = 300;
         tweets = data;
