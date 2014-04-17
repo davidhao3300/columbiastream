@@ -113,6 +113,7 @@ function initialize()
 
     lines = fs.readFileSync('./sent.txt', 'utf8');
     sents = JSON.parse(lines);
+    console.log("initialized");
 }
 
 function calc_sentiment(tweet)

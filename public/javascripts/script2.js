@@ -1,7 +1,7 @@
 
 $(document).ready(function() {
     var socket = io.connect(window.location.hostname);
-    var tweets;
+    var tweets = new Array();
     var index = 0;
     var done = false;
     socket.on('data', function(data)
