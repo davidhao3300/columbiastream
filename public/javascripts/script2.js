@@ -87,9 +87,8 @@ $(document).ready(function() {
         }, 500);
     });
     socket.on('new_tweet', function(data) {
-        
         $('#last-update').text(new Date().toTimeString());
-        $('.new-tweet').text(data.text);
+        $('.new-tweet').text("New tweet: "+data.text).css("color", color(data));
     });
     
 })
