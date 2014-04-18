@@ -18,9 +18,10 @@ $(document).ready(function() {
         console.log(tweets[num].time);
         var width = $(document).width();
 
-        var INT = 7;
+        var INT = 20;
         var open = new Array();
         var todelete = new Array();
+        var SPEED = 40;
 
         for (var x = 0; x < ROWS; x++)
         {
@@ -63,8 +64,8 @@ $(document).ready(function() {
                     {
                         open[index] = curr - MULT*INT;
                         $('.tweets').append("<div class=\"tweetbox\" id=\""+num+"\" style=\"top:"+(25*index+150)+"px; color:"+color(tweets[num])+"\">"+tweets[num].text+"</div>");
-                        todelete.push([curr-MULT*15, num]);
-                        $('#'+num).animate({right:"+="+(2*width)+"px"}, 15000, "linear");
+                        todelete.push([curr-MULT*SPEED, num]);
+                        $('#'+num).animate({right:"+="+(2*width)+"px"}, SPEED*1000, "linear");
                         num--;
                         full = false;
                         break;
@@ -75,8 +76,8 @@ $(document).ready(function() {
                     {
                         open[index] = curr - MULT*INT;
                         $('.tweets').append("<div class=\"tweetbox\" id=\""+num+"\" style=\"top:"+(25*index+150)+"px; color:"+color(tweets[num])+"\">"+tweets[num].text+"</div>");
-                        todelete.push([curr-MULT*15, num]);
-                        $('#'+num).animate({right:"+="+(2*width)+"px"}, 15000, "linear");
+                        todelete.push([curr-MULT*SPEED, num]);
+                        $('#'+num).animate({right:"+="+(2*width)+"px"}, SPEED*1000, "linear");
                         num--;
                         full = false;
                         break;
