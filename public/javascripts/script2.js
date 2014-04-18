@@ -9,7 +9,7 @@ $(document).ready(function() {
         if(done) return;
         done = true;
         var ROWS = 11;
-        var MULT = 300;
+        var MULT = 200;
         tweets = data;
         var time = new Date(tweets[tweets.length-1].time*1000);
         console.log(parseInt(time.getTime()/1000));
