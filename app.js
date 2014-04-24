@@ -74,8 +74,7 @@ sockets.configure(function() {
 //If the client just connected, give them fresh data!
 sockets.sockets.on('connection', function(socket) { 
   console.log("Connected");
-  var dict = [{text:"apples", sent:124, time:214},{text:"applfjasnjks", sent:124124, time:211244}];
-  console.log(dict);
+  
   socket.emit('data', tweets);
     //socket.emit('data', tweets);
 });
@@ -93,9 +92,12 @@ t.stream('statuses/filter', { track: watchSymbols }, function(stream) {
   //We have a connection. Now watch the 'data' event for incomming tweets.
   stream.on('data', function(tweet) {
       var dict = {time : Date.parse(tweet.created_at)/1000, text : tweet.text, sent:calc_sentiment(tweet.text)};
-      tweets.push(dict);
-      fs.writeFileSync('./tweets.txt', JSON.stringify(tweets));
-      sockets.sockets.emit('new_tweet', dict);
+      if(dict['text'].indexOf('RT') === -1)
+      {
+        tweets.push(dict);
+        fs.writeFileSync('./tweets.txt', JSON.stringify(tweets));
+        sockets.sockets.emit('new_tweet', dict);
+      }
   });
 });
 
