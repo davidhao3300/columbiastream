@@ -31,7 +31,7 @@ $(document).ready(function() {
         setInterval(function()
         {
             time.setTime(time.getTime()-1000*MULT/2);
-            var actualtime = new Date(time.getTime()-4*60*60*1000);
+            var actualtime = new Date(time.getTime());
             $("#current-time").text(actualtime.toLocaleString());
             var curr = parseInt(time.getTime()/1000);
             console.log(curr+" "+parseInt(tweets[num].time));
