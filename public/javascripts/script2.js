@@ -18,7 +18,7 @@ $(document).ready(function() {
         console.log(tweets[num].time);
         var width = $(document).width();
 
-        var INT = 20 * width/1278;
+        var INT = 20 * 1278/width;
         var open = new Array();
         var todelete = new Array();
         var SPEED = 40;
