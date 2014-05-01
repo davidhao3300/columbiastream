@@ -61,6 +61,13 @@ app.get('/', function(req, res) {
 	res.render("index", {});
 });
 
+app.get('/data', function(req, res)
+{
+  res.writeHead(200, { 'Content-Type': 'application/json' });
+  res.write(JSON.stringify(tweets));
+  res.end();
+});
+
 //Start a Socket.IO listen
 var sockets = io.listen(server);
 
